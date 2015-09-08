@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include <zlib.h>
+#include <cmath>
+
 
 using namespace std;
 
@@ -10,10 +12,11 @@ using namespace std;
 const size_t SEQUENCE_TO_QUALITY_LEN = string("\n+\n").size();
 
 
-template<int BASE, int N_PER_VALUE, const uint8_t* LUT, int LENGTH>
+template<int BASE, const uint8_t* LUT, int LENGTH>
 class Sequence
 {
 private:
+	static const int N_PER_VALUE = 8*sizeof(uint64_t) / log2(BASE);
 	uint64_t data[(LENGTH + N_PER_VALUE - 1) / N_PER_VALUE];
 
 public:
@@ -31,8 +34,6 @@ public:
 			data[idata] = val;
 		}
 	}
-
-
 };
 
 
