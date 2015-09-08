@@ -10,8 +10,35 @@ using namespace std;
 const size_t SEQUENCE_TO_QUALITY_LEN = string("\n+\n").size();
 
 
+template<int BASE, int N_PER_VALUE, const uint8_t* LUT, int LENGTH>
+class Sequence
+{
+private:
+	uint64_t data[(LENGTH + N_PER_VALUE - 1) / N_PER_VALUE];
 
-struct SequenceReadParameters {
+public:
+	Sequence(const char* seq) 
+	{
+		int idata, i;
+		for (i=0, idata = 0; i<LENGTH; ++idata)
+		{
+			uint64_t val = 0;
+			int j;
+			for (j=0; i<LENGTH && j<N_PER_VALUE; ++i, ++j) {
+				val *= BASE;
+				val += LUT[seq[i]];
+			}	
+			data[idata] = val;
+		}
+	}
+
+
+};
+
+
+
+struct SequenceReadParameters
+{
 	bool error;
 	unsigned int sequenceStart;
 	unsigned int sequenceLength;
@@ -40,8 +67,6 @@ SequenceReadParameters GetParameters(const char* buffer, size_t len) {
 	result.error = result.recordLength > len;
 	return result;
 }
-
-
 
 
 
@@ -81,7 +106,6 @@ int main(int argc, char** argv)
 
 	// ** Main part **
 	//
-	map<int, map<string, int> > variation;
 
 	// Process files
 	for (i=0; i<2; ++i) 
@@ -96,3 +120,4 @@ int main(int argc, char** argv)
 
 	return 0;
 }
+
