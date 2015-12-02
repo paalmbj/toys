@@ -2,7 +2,7 @@
 #include <string>
 #include <zlib.h>
 #include <cmath>
-
+#include <cstdint>
 
 using namespace std;
 
@@ -11,8 +11,38 @@ using namespace std;
 
 const size_t SEQUENCE_TO_QUALITY_LEN = string("\n+\n").size();
 
+class NucleotideValueFunctor
+{
+	uint64_t operator()(char input) {
+		if (input == 'N') return 0;
+		else if (input == 'A') return 1;
+		else if (input == 'C') return 2;
+		else if (input == 'G') return 3;
+		else if (input == 'T') return 4;
+		else return 0;
+	}
 
-template<int BASE, const uint8_t* LUT, int LENGTH>
+	char symbol(uint64_t val) {
+		if (input == 0) return 'N';
+		else if (input == 1) return 'A';
+		else if (input == 2) return 'C';
+		else if (input == 3) return 'G';
+		else if (input == 4) return 'T';
+		else return 0;
+	}
+};
+
+class QualityScoreValueFunctor
+{
+	uint64_t operator()(char input) {
+		return 33 - input;
+	}
+	char val(uint64_t input) {
+		return 33 + input;
+	}
+};
+
+template<int BASE, typename VALUE_FNC, int LENGTH>
 class Sequence
 {
 private:
@@ -29,12 +59,14 @@ public:
 			int j;
 			for (j=0; i<LENGTH && j<N_PER_VALUE; ++i, ++j) {
 				val *= BASE;
-				val += LUT[seq[i]];
+				val += VALUE_FNC(seq[i]);
 			}	
 			data[idata] = val;
 		}
 	}
 };
+
+typedef Sequence<5, BaseValueFunctor, 350> BaseSequence ;
 
 
 
