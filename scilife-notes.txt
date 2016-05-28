@@ -1,0 +1,132 @@
+* SciLife presentation *
+
+- Introduction -
+
+2014 XTen ordered
+2015 Jan/Feb - Finished installing
+
+Pipeline time:
+3 days bwa on single node
+
+48 nodes on cluster
+96 samples per week
+
+Production cluster upgrading
+Research cluster storage full 5 PB, want to get a research cluster
+
+FASTQ output towards 1 PB 2015
+
+- LIMS -
+Project only samples with one library prep.
+
+
+LIMS <> noSql DB <> Genomics status
+Trello integration!
+
+
+- NAS -
+10 x 1.2 TB 10k SAS
+HiSeq X: 0.5 TB / run
+
+Total: ~50 TB 
+
+No sudo rights
+
+NAS have two factor auth, but "functional account".
+
+Scientific linux 6.7. Samba.
+
+LIMS doesn't always pick up the run info.
+
+Event files written to shared filesystem via NAS.
+
+Transfer while the run is going on.
+TACA: Various useful tools. Archive data to SweStore. 
+
+SweStore: iRODS. Unstable. Will change to a tape based system (hospital).
+Keep data for 16 mo.
+
+Rsync to processing server. Running continuously.
+
+* Transfer sample sheet, event files and interop files to MooseFS.
+
+- Preproc servers - 
+3 x Preprocessing, 24 CPU, 24 GB RAM
+20 TB / server
+
+
+TACA processing. Send to cluster.
+
+- Cluster -
+QC: fastqscreen, fastqc.
+48 nodes 768 cores. 128 GB RAM. 
+
+200 nodes with each 256 GB RAM. 
+
+- Delivery -
+Deliver from one user to another. Need functional account.
+
+------------------
+File sizes:
+
+
+
+HiSeq X:
+Higher duplication rates. Lower when loading less.
+
+**Genomics Status**
+
+
+- NeoPrep- 
+Obs: Contamination between samples.
+Use for low input samples.
+
+-- Genomics Status --
+
+Old graph type: python server side.
+New: Java Script.
+
+
+Software:
+
+             NGI-S NGI-U Uppsala genomics centre
+Portal       x     x     x
+ZenDesk      x     x     x
+Genologics   x     will get
+Pipeline     x  ~  x diverging
+TACA         x
+StatusDB     x
+
+
+- Clinical -
+
+Clinical: separate lab, Shared sequencing room NAS, own preprocessing, cluster.
+
+
+
+2500 -> Preprocessing server -> Cluster
+X -> Cluster storage -> Demultiplexing
+
+Web interface output visualised for clinicians.
+
+Store BCL for eternity. 
+Store result for 2 months. BAM VCF.
+
+- LIMS -
+
+Receive samples.
+Sample prep.
+QC:
+Stops at sequencing. Want it that way + re-queue samples.
+
+Stats tracking: have a DB for demultiplexing stats.
+
+- Scout -
+Interpretation interface tool.
+
+Team: 2.5 dev, 2 bioinformatics / IT.
+Demultiplexing, alignment+variant calling. Scout.
+
+
+
+
